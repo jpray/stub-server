@@ -1,0 +1,67 @@
+html
+    head
+        title= 'Mock Services'
+        link(rel='stylesheet', type='text/css', href='/services/static/bootstrap.css')
+        link(rel='stylesheet', type='text/css', href='/services/static/main.css')
+        script(type='text/javascript', src='/services/static/jquery.min.js')
+        script(type='text/javascript', src='/services/static/main.js')
+    body
+        div(class='navbar navbar-default')
+            form(method='get',action='/services/setEnvironment',class='navbar-form pull-left',id="environment-form")
+                div(class='input-group')
+                    select(class='form-control',name='name',autocomplete="off")
+                        for val, environment in environments
+                            option(value=environment,selected=environment == activeEnvironment)=environment.replace('.json','')
+            form(method='get',action='/services/setPreset',class='navbar-form pull-left',id="preset-form")
+                div(class='input-group')
+                    select(class='form-control',name='name',autocomplete="off")
+                        option(value='',selected=activePreset == '')='Select A Preset'
+                        for val, preset in presets
+                            option(value=preset,
+                            selected=preset == activePreset)=preset
+                    div(class='input-group-btn')
+                        button(type='submit',class='btn btn-default hide')='Apply Preset'
+            form(method='get',action='/services/setSaveRemoteStubsAs',class='navbar-form pull-left')
+                div(class='input-group')
+                    input(type='text',class='form-control',placeholder='Preset Name',name='saveRemoteStubsAs',value='#{saveRemoteStubsAs}')
+                    div(class='input-group-btn')
+                        if isRecording
+                            button(id='',type='submit',class='btn btn-primary btn-stop-record',value="stop",name="recordAction")='Finish Recording & Save Preset'
+                        else
+                            button(id='',type='submit',class='btn btn-primary btn-record',value="record",name="recordAction")='Start Preset Recording'
+            //-form(method='get',action='/services/reset',class='navbar-form pull-right')
+            //-    button(type='submit',class='btn btn-warning')='Reset Stubs'
+            form(method='post',action='/services/createPreset',class='navbar-form pull-right')
+                div(class='input-group')
+                    input(type='text',class='form-control',placeholder='Preset Name',name='name')
+                    div(class='input-group-btn')
+                        button(id='',type='submit',class='btn btn-primary')='Save Current Config As Preset'
+
+        div(class='panel panel-default')
+            div(class='panel-body')
+                table(class='table table-striped')
+                    thead
+                        tr
+                            th= 'Route'
+                            th(width='30%')= 'GET'
+                            th(width='30%')= 'POST'
+                    tbody
+                        each stubs, route in routes
+                            tr
+                                td
+                                    a(href=route)=route
+                                td
+                                    if stubs['GET']
+                                        select(class='form-control','data-route'=route,'data-method'='GET',autocomplete="off")
+                                            each stub in stubs['GET'].stubs
+                                                option(value=stub,selected=stub==stubs['GET'].active)= stub
+                                td
+                                    if stubs['POST']
+                                        select(class='form-control','data-route'=route,'data-method'='POST',autocomplete="off")
+                                            each stub in stubs['POST'].stubs
+                                                option(value=stub,selected=stub == stubs['POST'].active)= stub
+        div
+            form(method='post',action='/services/cleanupState',class='navbar-form pull-right')
+                div(class='input-group')
+                    div(class='input-group-btn')
+                        button(id='',type='submit',class='btn btn-primary')='Cleanup'

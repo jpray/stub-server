@@ -1,0 +1,41 @@
+{
+  "name": "stub-server",
+  "version": "1.0.0",
+  "description": "A stub server",
+  "main": "src/server.js",
+  "scripts": {
+    "compile": "babel lib --out-dir src --optional runtime",
+    "copy:views": "node_modules/.bin/ncp lib/views src/views",
+    "copy:static": "node_modules/.bin/ncp lib/static src/static",
+    "copy:bootstrap": "node_modules/.bin/ncp node_modules/bootstrap/dist/css src/static",
+    "copy:jquery": "node_modules/.bin/ncp node_modules/jquery/dist src/static",
+    "prepublish": "npm run compile && npm run copy:views && npm run copy:static && npm run copy:bootstrap && npm run copy:jquery"
+  },
+  "author": "",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
+    "babel-register": "6.24.0",
+    "babel-runtime": "^5.8.25",
+    "body-parser": "^1.14.1",
+    "bootstrap": "^3.3.5",
+    "chokidar": "^1.2.0",
+    "colors": "^1.1.2",
+    "express": "^4.13.3",
+    "extend": "^3.0.0",
+    "http-proxy-middleware": "0.17.3",
+    "jade": "^1.11.0",
+    "jquery": "^2.1.4",
+    "mkdirp": "^0.5.1",
+    "mkpath": "1.0.0",
+    "ncp": "^2.0.0",
+    "node-stringify": "0.0.19",
+    "serve-index": "^1.9.1",
+    "shelljs": "0.7.7",
+    "winston": "2.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:jpray/stub-server.git"
+  }
+}

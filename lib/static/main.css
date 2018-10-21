@@ -1,0 +1,19 @@
+body {
+    padding: 10px;
+}
+
+table td {
+    vertical-align: middle !important;
+}
+
+.hide {
+	display:none;
+}
+
+.btn-record {
+	background-color:green !important;
+}
+
+.btn-stop-record {
+	background-color:red !important;
+}
